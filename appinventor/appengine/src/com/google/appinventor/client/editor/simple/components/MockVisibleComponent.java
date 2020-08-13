@@ -31,6 +31,8 @@ public abstract class MockVisibleComponent extends MockComponent {
   protected static final String PROPERTY_NAME_THUMBCOLORINACTIVE = "ThumbColorInactive";
   protected static final String PROPERTY_NAME_TRACKCOLORACTIVE = "TrackColorActive";
   protected static final String PROPERTY_NAME_TRACKCOLORINACTIVE = "TrackColorInactive";
+  protected static final String PROPERTY_NAME_COLORLEFT = "ColorLeft";
+  protected static final String PROPERTY_NAME_COLORRIGHT = "ColorRight";
   protected static final String PROPERTY_NAME_ENABLED = "Enabled";
   protected static final String PROPERTY_NAME_FONTBOLD = "FontBold";
   protected static final String PROPERTY_NAME_FONTITALIC = "FontItalic";

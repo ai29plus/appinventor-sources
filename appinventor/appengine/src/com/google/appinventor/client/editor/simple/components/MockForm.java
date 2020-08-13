@@ -39,11 +39,13 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockPanel;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
+
 
 /**
  * Mock Form component. This implementation provides two main preview sizes corresponding to
@@ -59,12 +61,16 @@ public final class MockForm extends MockContainer {
   private class TitleBar extends Composite {
     private static final int TITLEBAR_HEIGHT = 24;
     private static final int ACTIONBAR_HEIGHT = 56;
+    //private static final int NAVBAR_HEIGHT = 44;
 
     // UI elements
     private Label title;
     private Button menuButton;
     private AbsolutePanel bar;
+    private Image bookIconWhite;
+    private Image bookIconBlack;
     private boolean actionBar;
+    private boolean navBar;
     private String backgroundColor;
 
     public String getTitle() {
@@ -77,11 +83,15 @@ public final class MockForm extends MockContainer {
     TitleBar() {
       title = new Label();
       title.setStylePrimaryName("ode-SimpleMockFormTitle");
-      title.setHorizontalAlignment(Label.ALIGN_LEFT);
 
       menuButton = new Button();
       menuButton.setText("\u22ee");
       menuButton.setStylePrimaryName("ode-SimpleMockFormMenuButton");
+
+      bookIconWhite = new Image(images.bookIconWhite());
+      bookIconWhite.setStylePrimaryName("ode-SimpleMockFormIconIOSWhite");
+      bookIconBlack = new Image(images.bookIconBlack());
+      bookIconBlack.setStylePrimaryName("ode-SimpleMockFormIconIOSBlack");
 
       bar = new AbsolutePanel();
       bar.add(title);
@@ -100,21 +110,34 @@ public final class MockForm extends MockContainer {
       title.setText(newTitle);
     }
 
-    void setActionBar(boolean actionBar) {
+    void setActionBar(boolean actionBar , boolean navBar) {
       this.actionBar = actionBar;
+      this.navBar = navBar;
       setSize("100%", (actionBar ? ACTIONBAR_HEIGHT : TITLEBAR_HEIGHT) + "px");
       if (actionBar) {
-        addStyleDependentName("ActionBar");
+        if (navBar) {
+          removeStyleDependentName("ActionBar");
+          addStyleDependentName("NavBar");
+        } else {
+          removeStyleDependentName("NavBar");
+          addStyleDependentName("ActionBar");
+        }
         MockComponentsUtil.setWidgetBackgroundColor(titleBar.bar, backgroundColor);
+
       } else {
         removeStyleDependentName("ActionBar");
         MockComponentsUtil.setWidgetBackgroundColor(titleBar.bar, "&HFF696969");
       }
     }
 
+    void changeBookmarkIcon(boolean black) {
+      bar.remove(black ? bookIconWhite : bookIconBlack);
+      bar.add(black ? bookIconBlack : bookIconWhite);
+    }
+
     void setBackgroundColor(String color) {
       this.backgroundColor = color;
-      if (actionBar) {
+      if (actionBar || navBar) {
         MockComponentsUtil.setWidgetBackgroundColor(titleBar.bar, color);
       }
     }
@@ -132,13 +155,24 @@ public final class MockForm extends MockContainer {
 
     // UI elements
     private DockPanel bar;
-    private Image phoneBarImage;
+    private HorizontalPanel phoneBarLeftPanel;
+    private HorizontalPanel phoneBarRightPanel;
+    private HorizontalPanel iPadPhoneBarLeftPanel;
+    private HorizontalPanel iPadPhoneBarRightPanel;
+    private Image blackIconsLeft;
+    private Image blackIconsRight;
+    private Image whiteIconsLeft;
+    private Image whiteIconsRight;
+    private Image iPadWhiteIconsLeft;
+    private Image iPadWhiteIconsRight;
+    private Image iPadBlackIconsLeft;
+    private Image iPadBlackIconsRight;
 
     /*
      * Creates a new phone status bar.
      */
     PhoneBar() {
-      phoneBarImage = new Image(images.phonebar());
+      Image phoneBarImage = new Image(images.phonebar());
 
       bar = new DockPanel();
       bar.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
@@ -146,8 +180,77 @@ public final class MockForm extends MockContainer {
 
       initWidget(bar);
 
-      setStylePrimaryName("ode-SimpleMockFormPhoneBar");
+      setStylePrimaryName("ode-SimpleMockFormPhoneBarAndroidHolo");
       setSize("100%", HEIGHT + "px");
+    }
+
+    PhoneBar(String color) {
+      Image phoneBarAndroidMaterial = new Image(images.phonebarAndroidMaterial());
+
+      bar = new DockPanel();
+      bar.setHorizontalAlignment(HorizontalPanel.ALIGN_RIGHT);
+      bar.add(phoneBarAndroidMaterial, DockPanel.EAST);
+
+      initWidget(bar);
+      MockComponentsUtil.setWidgetBackgroundColor(bar, color);
+
+      setStylePrimaryName("ode-SimpleMockFormPhoneBarAndroidMaterial");
+      setSize("100%", HEIGHT + "px");
+    }
+
+    PhoneBar(boolean blackIcons, int size, String color) {
+      // icons for iPhone
+      blackIconsLeft = new Image(images.phonebariPhoneLeftBlack());
+      blackIconsRight = new Image(images.phonebariPhoneRightBlack());
+      whiteIconsLeft = new Image(images.phonebariPhoneLeftWhite());
+      whiteIconsRight = new Image(images.phonebariPhoneRightWhite());
+
+      phoneBarLeftPanel = new HorizontalPanel();
+      phoneBarLeftPanel.setStylePrimaryName("ode-SimpleMockFormLeft");
+      phoneBarRightPanel = new HorizontalPanel();
+      phoneBarRightPanel.setStylePrimaryName("ode-SimpleMockFormRight");
+
+      //icons for iPad
+      iPadWhiteIconsLeft = new Image(images.phonebariPadLeftWhite());
+      iPadWhiteIconsRight = new Image(images.phonebariPadRightWhite());
+      iPadBlackIconsLeft = new Image(images.phonebariPadLeftBlack());
+      iPadBlackIconsRight = new Image(images.phonebariPadRightBlack());
+
+      iPadPhoneBarLeftPanel = new HorizontalPanel();
+      iPadPhoneBarLeftPanel.setStylePrimaryName("ode-SimpleMockFormLeftIPad");
+      iPadPhoneBarRightPanel = new HorizontalPanel();
+      iPadPhoneBarRightPanel.setStylePrimaryName("ode-SimpleMockFormRightIPad");
+
+      bar = new DockPanel();
+      setIconColor(blackIcons, size);
+      bar.add(phoneBarLeftPanel, DockPanel.WEST);
+      bar.add(phoneBarRightPanel, DockPanel.EAST);
+      bar.add(iPadPhoneBarLeftPanel, DockPanel.WEST);
+      bar.add(iPadPhoneBarRightPanel, DockPanel.EAST);
+
+      initWidget(bar);
+      MockComponentsUtil.setWidgetBackgroundColor(bar, color);
+      setStylePrimaryName("ode-SimpleMockFormPhoneBariOS");
+      setSize("100%", HEIGHT + "px");
+    }
+
+    // changing Icons in Device Default and Black Title Text
+    void setIconColor(boolean blackIcons, int size) {
+      if(size == 0) {
+        bar.removeStyleDependentName("iPad");
+        bar.addStyleDependentName("iPhone");
+        phoneBarLeftPanel.remove(blackIcons ? whiteIconsLeft : blackIconsLeft);
+        phoneBarRightPanel.remove(blackIcons ? whiteIconsRight : blackIconsRight);
+        phoneBarLeftPanel.add(blackIcons ? blackIconsLeft : whiteIconsLeft);
+        phoneBarRightPanel.add(blackIcons ? blackIconsRight : whiteIconsRight);
+      } else {
+        bar.removeStyleDependentName("iPhone");
+        bar.addStyleDependentName("iPad");
+        iPadPhoneBarLeftPanel.remove(blackIcons? iPadWhiteIconsLeft : iPadBlackIconsLeft);
+        iPadPhoneBarRightPanel.remove(blackIcons ? iPadWhiteIconsRight : iPadBlackIconsRight);
+        iPadPhoneBarLeftPanel.add(blackIcons ? iPadBlackIconsLeft : iPadWhiteIconsLeft);
+        iPadPhoneBarRightPanel.add(blackIcons? iPadBlackIconsRight : iPadWhiteIconsRight);
+      }
     }
   }
 
@@ -164,7 +267,6 @@ public final class MockForm extends MockContainer {
     /*
      * Creates a new phone navigation bar; Shows at the bottom of the viewer.
      */
-
     NavigationBar() {
       bar = new AbsolutePanel();
       initWidget(bar);
@@ -209,6 +311,13 @@ public final class MockForm extends MockContainer {
   private boolean landscape = false;
   private int idxPhoneSize = 0;
 
+  //Default values for theme style
+  private boolean changePreviewFlag = false;
+  private boolean blackIcons = false ;
+  private int idxPhonePreviewStyle = -1;
+  private String primaryDarkColor="&HFF41521C";
+  private boolean actionBar = false;
+
   // Property names
   private static final String PROPERTY_NAME_TITLE = "Title";
   private static final String PROPERTY_NAME_SCREEN_ORIENTATION = "ScreenOrientation";
@@ -236,6 +345,7 @@ public final class MockForm extends MockContainer {
 
   ScrollPanel scrollPanel;
   private TitleBar titleBar;
+  private PhoneBar phoneBar;
   private NavigationBar navigationBar;
   private List<MockComponent> selectedComponents = new ArrayList<MockComponent>(Collections.singleton(this));
   private MockContainer pasteTarget = this;
@@ -286,7 +396,8 @@ public final class MockForm extends MockContainer {
     responsivePanel = new AbsolutePanel();
 
     // Initialize mock form UI by adding the phone bar and title bar.
-    responsivePanel.add(new PhoneBar());
+    changePreview();
+    responsivePanel.add(phoneBar);
     titleBar = new TitleBar();
     responsivePanel.add(titleBar);
 
@@ -333,20 +444,48 @@ public final class MockForm extends MockContainer {
     }
   }
 
+  public void changePhonePreview(int idx, String previewName ) {
+    // storing the new preview style in the user settings
+    editor.getProjectEditor().changeProjectSettingsProperty(
+      SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
+      SettingsConstants.YOUNG_ANDROID_SETTINGS_PHONE_PREVIEW, previewName);
+
+    idxPhonePreviewStyle=idx;
+    changePreviewFlag=true;
+    changePreview();
+    setPhoneStyle();
+  }
+
   private void setPhoneStyle() {
     if (landscape) {
       if (idxPhoneSize == 0) phoneWidget.setStylePrimaryName("ode-SimpleMockFormPhoneLandscape");
       else if (idxPhoneSize == 1) phoneWidget.setStylePrimaryName("ode-SimpleMockFormPhoneLandscapeTablet");
       else if (idxPhoneSize == 2) phoneWidget.setStylePrimaryName("ode-SimpleMockFormPhoneLandscapeMonitor");
       navigationBar.setStylePrimaryName("ode-SimpleMockFormNavigationBarLandscape");
-    }
-    else {
+    } else {
       if (idxPhoneSize == 0) phoneWidget.setStylePrimaryName("ode-SimpleMockFormPhonePortrait");
       else if (idxPhoneSize == 1) phoneWidget.setStylePrimaryName("ode-SimpleMockFormPhonePortraitTablet");
       else if (idxPhoneSize == 2) phoneWidget.setStylePrimaryName("ode-SimpleMockFormPhonePortraitMonitor");
       navigationBar.setStylePrimaryName("ode-SimpleMockFormNavigationBarPortrait");
     }
+    if(idxPhonePreviewStyle == 2) {
+      setIOSPhoneStyle();
+    }
   }
+
+  private void setIOSPhoneStyle() {
+    if (landscape) {
+      if (idxPhoneSize == 0) phoneWidget.setStylePrimaryName("ode-SimpleMockFormIOSLandscape");
+      else if (idxPhoneSize == 1) phoneWidget.setStylePrimaryName("ode-SimpleMockFormIOSLandscapeTablet");
+      else if (idxPhoneSize == 2) phoneWidget.setStylePrimaryName("ode-SimpleMockFormIOSLandscapeMonitor");
+    } else {
+      if (idxPhoneSize == 0) phoneWidget.setStylePrimaryName("ode-SimpleMockFormIOSPortrait");
+      else if (idxPhoneSize == 1) phoneWidget.setStylePrimaryName("ode-SimpleMockFormIOSPortraitTablet");
+      else if (idxPhoneSize == 2) phoneWidget.setStylePrimaryName("ode-SimpleMockFormIOSPortraitMonitor");
+    }
+    phoneBar.setIconColor(blackIcons, idxPhoneSize);
+  }
+
   /*
    * Resizes the scrollPanel, responsivePanel, and formWidget based on the screen size.
    */
@@ -372,7 +511,60 @@ public final class MockForm extends MockContainer {
     }
   }
 
-   /*
+  /*
+   * Changes the preview of MockForm based on Android Holo, Android Material and iOS styles
+   */
+  private void changePreview() {
+    // this condition prevents adding multiple phoneBars and titlebars
+    if (changePreviewFlag) {
+      responsivePanel.remove(phoneBar);
+      responsivePanel.remove(titleBar);
+    }
+
+    if (idxPhonePreviewStyle == -1) {
+      phoneBar = new PhoneBar();
+      formWidget.removeStyleDependentName("AndroidMaterial");
+      formWidget.removeStyleDependentName("iOS");
+      formWidget.removeStyleDependentName("AndroidHolo");
+    } else if (idxPhonePreviewStyle == 0) {
+      phoneBar = new PhoneBar(primaryDarkColor);
+      formWidget.removeStyleDependentName("AndroidHolo");
+      formWidget.removeStyleDependentName("iOS");
+      formWidget.addStyleDependentName("AndroidMaterial");
+    } else if (idxPhonePreviewStyle == 1) {
+      phoneBar = new PhoneBar();
+      formWidget.removeStyleDependentName("AndroidMaterial");
+      formWidget.removeStyleDependentName("iOS");
+      formWidget.addStyleDependentName("AndroidHolo");
+    } else if (idxPhonePreviewStyle == 2) {
+      phoneBar = new PhoneBar(blackIcons, idxPhoneSize, primaryDarkColor);
+      formWidget.removeStyleDependentName("AndroidMaterial");
+      formWidget.removeStyleDependentName("AndroidHolo");
+      formWidget.addStyleDependentName("iOS");
+    }
+
+    // updating changes to the MockForm
+    if (changePreviewFlag) {
+      formWidget.remove(responsivePanel);
+      formWidget.remove(navigationBar);
+
+      responsivePanel.add(phoneBar);
+      responsivePanel.add(titleBar);
+      responsivePanel.add(scrollPanel);
+
+      formWidget.add(responsivePanel);
+      if (idxPhonePreviewStyle != 2)  {
+        formWidget.add(navigationBar);
+        titleBar.setActionBar(actionBar, false);
+      } else {
+        titleBar.setActionBar(true, true);
+        titleBar.changeBookmarkIcon(blackIcons);
+      }
+    }
+    changePreviewFlag = false;
+  }
+
+  /*
    * Returns the width of a vertical scroll bar, calculating it if necessary.
    */
   private static int getVerticalScrollbarWidth() {
@@ -668,12 +860,13 @@ public final class MockForm extends MockContainer {
   }
 
   private void setActionBarProperty(String actionBar) {
+    this.actionBar = Boolean.parseBoolean(actionBar);
     if (editor.isScreen1()) {
       editor.getProjectEditor().changeProjectSettingsProperty(
           SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
           SettingsConstants.YOUNG_ANDROID_SETTINGS_ACTIONBAR, actionBar);
     }
-    titleBar.setActionBar(Boolean.parseBoolean(actionBar));
+    titleBar.setActionBar(this.actionBar, false);
     if (initialized) {
       resizePanel(screenWidth, screenHeight);  // update screen due to titlebar size change.
     }
@@ -698,6 +891,7 @@ public final class MockForm extends MockContainer {
           SettingsConstants.PROJECT_YOUNG_ANDROID_SETTINGS,
           SettingsConstants.YOUNG_ANDROID_SETTINGS_PRIMARY_COLOR_DARK, color);
     }
+    primaryDarkColor= color;
   }
 
   private void setAccentColor(String color) {
@@ -716,20 +910,29 @@ public final class MockForm extends MockContainer {
     }
     if (theme.equals("AppTheme.Light")) {
       final String newColor = "&HFF000000";
+      blackIcons=true;
       MockComponentsUtil.setWidgetTextColor(titleBar.bar, newColor);
       MockComponentsUtil.setWidgetTextColor(titleBar.menuButton, newColor);
       MockComponentsUtil.setWidgetTextColor(titleBar.title, newColor);
     } else {
       final String newColor = "&HFFFFFFFF";
+      blackIcons=false;
       MockComponentsUtil.setWidgetTextColor(titleBar.bar, newColor);
       MockComponentsUtil.setWidgetTextColor(titleBar.menuButton, newColor);
       MockComponentsUtil.setWidgetTextColor(titleBar.title, newColor);
     }
     if (theme.equals("AppTheme")) {
+      blackIcons=false;
       formWidget.addStyleDependentName("Dark");
     } else {
       formWidget.removeStyleDependentName("Dark");
     }
+
+    if(idxPhonePreviewStyle == 2) {
+      phoneBar.setIconColor(blackIcons, idxPhoneSize);
+      titleBar.changeBookmarkIcon(blackIcons);
+    }
+
   }
 
   /**
@@ -1035,16 +1238,21 @@ public final class MockForm extends MockContainer {
     } else if (propertyName.equals(PROPERTY_NAME_ACTIONBAR)) {
       setActionBarProperty(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_THEME)) {
-      setTheme(newValue);
       if ("Classic".equals(newValue)) {
+        editor.getVisibleComponentsPanel().enablePhonePreviewCheckBox(false);
         getProperties().getExistingProperty(PROPERTY_NAME_ACTIONBAR).setValue("False");
       } else {
+        editor.getVisibleComponentsPanel().enablePhonePreviewCheckBox(true);
         getProperties().getExistingProperty(PROPERTY_NAME_ACTIONBAR).setValue("True");
       }
+      setTheme(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_PRIMARY_COLOR)) {
       setPrimaryColor(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_PRIMARY_COLOR_DARK)) {
       setPrimaryColorDark(newValue);
+      if(idxPhonePreviewStyle == 0 || idxPhonePreviewStyle == 2) {
+        MockComponentsUtil.setWidgetBackgroundColor(phoneBar, newValue);
+      }
     } else if (propertyName.equals(PROPERTY_NAME_ACCENT_COLOR)) {
       setAccentColor(newValue);
     } else if (propertyName.equals(PROPERTY_NAME_HORIZONTAL_ALIGNMENT)) {

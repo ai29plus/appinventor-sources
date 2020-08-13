@@ -1,0 +1,162 @@
+/* -*- mode: css; css-indent-offset: 2; -*- */
+/*
+ * Copyright 2007-2011 Google Inc. All Rights Reserved.
+ * Copyright 2011-2017 MIT, All Rights Reserved.
+ * Released under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+@font-face {
+  font-family: iOSFont;
+  src: url('../fonts/Helvetica.ttf');
+}
+
+.ode-SimpleMockFormIOSLandscape .ode-SimpleMockForm,
+.ode-SimpleMockFormIOSLandscapeTablet .ode-SimpleMockForm,
+.ode-SimpleMockFormIOSLandscapeMonitor .ode-SimpleMockForm {
+  -webkit-flex-direction: row;
+  flex-direction: row;
+}
+
+.ode-SimpleMockFormIOSPortrait .ode-SimpleMockForm,
+.ode-SimpleMockFormIOSPortraitTablet .ode-SimpleMockForm,
+.ode-SimpleMockFormIOSPortraitMonitor .ode-SimpleMockForm {
+  -webkit-flex-direction: column;
+  flex-direction: column;
+}
+
+/* ==== start: skins for iOS : these are temporary mocks of iPhones and iPads */
+.ode-SimpleMockFormIOSLandscape {
+    background: url(../images/iphoneSevenLandscape.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 100% 100%;
+    padding: 11px 43px 7px 48px;
+}
+
+.ode-SimpleMockFormIOSPortrait {
+  background: url(../images/iPhoneXPotrait.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 100% 100%;
+  padding: 80px 22px 97px 22px;
+}
+
+.ode-SimpleMockFormIOSLandscapeTablet {
+  background: url(../images/iOSLandscapeTablet.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 100% 100%;
+  padding: 15px 80px 12px 64px;
+}
+
+.ode-SimpleMockFormIOSPortraitTablet {
+  background: url(../images/iOSPortraitTablet.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 100% 100%;
+  padding: 64px 13px 75px 13px;
+}
+
+.ode-SimpleMockFormIOSLandscapeMonitor {
+  background: url(../images/iOSLandscapeMonitor.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 100% 100%;
+  padding: 44px 100px 39px 48px;
+}
+
+.ode-SimpleMockFormIOSPortraitMonitor {
+  background: url(../images/iOSPortraitMonitor.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 100% 100%;
+  padding: 99px 36px 100px 34px;
+}
+
+
+/* iOS PhoneBar */
+.ode-SimpleMockFormPhoneBariOS-iPhone,
+.ode-SimpleMockFormPhoneBariOS-iPad {
+  position: relative;
+}
+
+.ode-SimpleMockFormLeft {
+  left: 15px;
+  padding: 1px;
+  position: absolute;
+  display: none;
+}
+
+.ode-SimpleMockFormLeftIPad {
+  left: 0;
+  padding: 4px;
+  position: absolute;
+  display: none;
+}
+
+.ode-SimpleMockFormRight {
+  right: 0;
+  padding: 2px;
+  position: absolute;
+  display: none;
+}
+
+.ode-SimpleMockFormRightIPad {
+  right: 0;
+  padding: 4px;
+  position: absolute;
+  display: none;
+}
+
+.ode-SimpleMockFormPhoneBariOS-iPhone  .ode-SimpleMockFormLeft,
+.ode-SimpleMockFormPhoneBariOS-iPhone  .ode-SimpleMockFormRight,
+.ode-SimpleMockFormPhoneBariOS-iPad  .ode-SimpleMockFormLeftIPad,
+.ode-SimpleMockFormPhoneBariOS-iPad  .ode-SimpleMockFormRightIPad {
+  display: inline-block;
+}
+
+/* iOS TitleBar */
+.ode-SimpleMockFormTitleBar-NavBar {
+  background-color: #a5cf47;
+  color: white;
+  font-size: 22px;
+  position: relative;
+}
+
+.ode-SimpleMockFormTitleBar-NavBar .ode-SimpleMockFormTitle {
+  padding: 13px;
+  left: 0;
+  right:0;
+  font-family: iOSFont;
+  text-align: center;
+  position: absolute;
+}
+
+.ode-SimpleMockFormIconIOSWhite,
+.ode-SimpleMockFormIconIOSBlack {
+  right: 0;
+  padding: 16px;
+  border: 0;
+  background-color: transparent;
+  position: absolute;
+  display: none;
+}
+
+.ode-SimpleMockFormTitleBar-NavBar .ode-SimpleMockFormIconIOSWhite,
+.ode-SimpleMockFormTitleBar-NavBar .ode-SimpleMockFormIconIOSBlack {
+  display: inline-block;
+}
+
+/* iOS Button */
+.ode-SimpleMockForm-iOS .ode-SimpleMockButton {
+  padding: 4px 8px;
+  background-color: white;
+  color : #007AFF;
+  font-family: iOSFont;
+}
+
+/*iOS Selected Component*/
+.ode-SimpleMockForm-iOS .ode-SimpleMockComponent-selected {
+  border: 2px solid #8fc202;
+}

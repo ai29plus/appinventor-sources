@@ -1,0 +1,69 @@
+From e7e2c25962dfe05426e533b1c374609f7400b803 Mon Sep 17 00:00:00 2001
+From: "Jeffrey I. Schiller" <jis@mit.edu>
+Date: Mon, 10 Aug 2020 15:55:52 -0400
+Subject: [PATCH] Fix MockSlider so colors can be set
+
+Change-Id: I8b9634531ab732330375e20636294f633aa81028
+---
+ .../editor/simple/components/MockSlider.java  | 24 ++++++++++++++-----
+ 1 file changed, 18 insertions(+), 6 deletions(-)
+
+diff --git a/appinventor/appengine/src/com/google/appinventor/client/editor/simple/components/MockSlider.java b/appinventor/appengine/src/com/google/appinventor/client/editor/simple/components/MockSlider.java
+index c30740c0ce..bde54580a3 100644
+--- a/appinventor/appengine/src/com/google/appinventor/client/editor/simple/components/MockSlider.java
++++ b/appinventor/appengine/src/com/google/appinventor/client/editor/simple/components/MockSlider.java
+@@ -31,6 +31,7 @@ public final class MockSlider extends MockVisibleComponent {
+   protected final HorizontalPanel panel;
+   public String trackColorActive = "lime";
+   public String trackColorInactive = "lightgray";
++  private boolean initialized = false;
+ 
+   public SVGPanel sliderGraphic;
+ 
+@@ -54,6 +55,11 @@ public final class MockSlider extends MockVisibleComponent {
+    *
+    */
+   private void paintSlider() {
++    if (initialized) {
++      panel.remove(sliderGraphic);
++    } else {
++      initialized = true;
++    }
+     sliderGraphic = new SVGPanel();
+     int sliderHeight = 28;  // pixels (Android asset is 28 px at 160 dpi)
+ 
+@@ -79,9 +85,12 @@ public final class MockSlider extends MockVisibleComponent {
+    *
+    */
+   private void setTrackColorActiveProperty(String text) {
+-    trackColorActive = MockComponentsUtil.getColor(text).toString();
+-    DOM.setStyleAttribute(sliderGraphic.getWidget(1).getElement().getFirstChildElement().getNextSiblingElement(),
+-              "fill", trackColorActive);
++    if (sliderGraphic != null) {
++      trackColorActive = MockComponentsUtil.getColor(text).toString();
++      paintSlider();
++      // DOM.setStyleAttribute(panel.getWidget(0).getElement().getFirstChildElement().getNextSiblingElement(),
++      //   "fill", trackColorActive);
++    }
+   }
+ 
+   /**
+@@ -90,9 +99,12 @@ public final class MockSlider extends MockVisibleComponent {
+    *
+    */
+   private void setTrackColorInactiveProperty(String text) {
+-    trackColorInactive = MockComponentsUtil.getColor(text).toString();
+-    DOM.setStyleAttribute(sliderGraphic.getWidget(1).getElement().getFirstChildElement().getNextSiblingElement(),
+-              "fill", trackColorInactive);
++    if (sliderGraphic != null) {
++      trackColorInactive = MockComponentsUtil.getColor(text).toString();
++      paintSlider();
++      // DOM.setStyleAttribute(panel.getWidget(0).getElement().getFirstChildElement().getNextSiblingElement(),
++      //   "fill", trackColorInactive);
++    }
+    }
+ 
+ 
+-- 
+2.17.1
+
