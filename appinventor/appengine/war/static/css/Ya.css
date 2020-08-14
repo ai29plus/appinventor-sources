@@ -1079,6 +1079,7 @@ select.ode-PropertyEditor[disabled] {
   background-color: dimgray;
   color: white;
   font-size: 90%;
+  position: relative;
   border-bottom: 1px solid lightgray;
 }
 
@@ -1086,10 +1087,7 @@ select.ode-PropertyEditor[disabled] {
   background-color: #a5cf47;
   color: white;
   font-size: 20px;
-}
-
-.ode-SimpleMockFormPhoneBar {
-  background-color: #000000;
+  position: relative;
 }
 
 .ode-SimpleMockFormTitle {
@@ -1224,10 +1222,9 @@ path.ode-SimpleMockMapFeature-selected {
 
 .ode-SimpleMockButton {
   padding: 4px 8px;
-  text-shadow: none;
-  border: 0;
-  border-radius: 2px;
   background-color: #d6d7d7;
+  border-radius: 0px;
+  border-bottom: 2px #b9b9b9 solid;
   color: rgba(0, 0, 0, 0.87);
 }
 
@@ -1805,6 +1802,7 @@ input[type="checkbox"]:focus {
   outline: thin dotted #333;
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
+
 }
 
 .uneditable-input,
@@ -2785,4 +2783,31 @@ div.dropdiv p {
   font-size: 24pt;
   line-height: 30pt;
   color: darkgreen;
+}
+
+.download-button {
+  display: grid;
+  max-width: 130px;
+  margin: 0 !important;
+  margin-top: 12px !important;
+  margin-left: -3px !important;
+  height: 130px;
+}
+
+.download-icon {
+  height: 110px;
+  width: 110px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.download-barcode:before {
+    content: "";
+    background-color: #888;
+    position: absolute;
+    width: 1px;
+    height: 160px;
+    top: 40px;
+    left: 50%;
+    display: block;
 }

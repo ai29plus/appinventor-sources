@@ -1,0 +1,23 @@
+/* -*- mode: css; css-indent-offset: 2; -*- */
+/*
+ * Copyright 2007-2011 Google Inc. All Rights Reserved.
+ * Copyright 2011-2017 MIT, All Rights Reserved.
+ * Released under the Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+.ode-SimpleMockFormPhoneBarAndroidHolo {
+  background-color: #000000;
+}
+
+/*Holo Button*/
+.ode-SimpleMockForm-AndroidHolo .ode-SimpleMockButton {
+  min-height: 34px;
+  padding: 4px 8px;
+  border-bottom: 2px #b9b9b9 solid;
+  background-color: #d6d7d7;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+
+
